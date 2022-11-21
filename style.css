@@ -72,4 +72,30 @@ body {
 
 .matrizBChute {
   display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.matrizB {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matrizB p {
+  padding-bottom: 25px;
+}
+
+.chuteInicial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.matrizB input,
+.chuteInicial input {
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
+  width: 50%;
 }
