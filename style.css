@@ -30,6 +30,7 @@ body {
   background-color: darkkhaki;
   border-radius: 10px;
   padding: 10px;
+  gap: 100px;
 }
 
 .left {
@@ -68,6 +69,9 @@ body {
 
 .right {
   width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 40vh;
 }
 
 .matrizBChute {
@@ -83,10 +87,6 @@ body {
   align-items: center;
 }
 
-.matrizB p {
-  padding-bottom: 25px;
-}
-
 .chuteInicial {
   display: flex;
   flex-direction: column;
@@ -98,4 +98,14 @@ body {
   box-sizing: border-box;
   text-align: center;
   width: 50%;
+}
+
+.erro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.erro input {
+  width: 60px;
 }
