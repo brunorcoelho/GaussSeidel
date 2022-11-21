@@ -69,3 +69,7 @@ body {
 .right {
   width: 70%;
 }
+
+.matrizBChute {
+  display: flex;
+}
