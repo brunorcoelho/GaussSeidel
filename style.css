@@ -106,7 +106,7 @@ body {
   margin-top: 20px;
 }
 
-.matrizB {
+#matrizB {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,7 +117,7 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.matrizB input,
+#matrizB input,
 .chuteInicial input {
   display: block;
   box-sizing: border-box;
