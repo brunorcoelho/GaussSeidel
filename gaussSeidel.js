@@ -106,6 +106,7 @@ for (let index = 0; index < matrixSize.length; index++) {
 
 calcular.addEventListener('click', lerMatriz);
 
+//função que lê os valores colocados pelo usuário em todos os inputs
 function lerMatriz() {
   while (resultadoNode.childNodes.length > 2) {
     resultadoNode.removeChild(resultadoNode.lastChild);
@@ -160,6 +161,7 @@ function lerMatriz() {
   }
 }
 
+// função que testa a matriz para verificar se ela satisfaz o critério de sassenfeld
 function criterioSassenfeld(matrizSassenfeld, tamanho) {
   let beta = new Array(tamanho);
   for (let i = 0; i < tamanho; i++) {
@@ -208,6 +210,7 @@ function criterioSassenfeld(matrizSassenfeld, tamanho) {
   }
 }
 
+// função do método de gauss seidel em si
 function calcularMatriz(matriz, matrizB, chuteInicial, erro, tamanho) {
   let contagemDeErro;
   let k = 0;
