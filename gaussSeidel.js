@@ -195,7 +195,7 @@ function criterioSassenfeld(matrizSassenfeld, tamanho) {
   if (beta[tamanho - 1] > 1) {
     const sassenfeldP = document.createElement('p');
     const sassenfeldTexto = document.createTextNode(
-      'Essa matriz nao satisfaz o criterio de Sassenfeld. Insira outra.'
+      'Essa matriz não satisfaz o critério de Sassenfeld. Insira outra.'
     );
     sassenfeldP.appendChild(sassenfeldTexto);
     criterioSassenfeldNode.appendChild(sassenfeldP);
@@ -249,7 +249,7 @@ function calcularMatriz(matriz, matrizB, chuteInicial, erro, tamanho) {
 
     const resultadoX = document.createElement('p');
     const resultadoTexto = document.createTextNode(
-      'O resultado aproximado na iteracao ' + k + ' é ' + aproximacaoAtual
+      'O resultado aproximado na iteração ' + k + ' é ' + aproximacaoAtual
     );
     resultadoX.appendChild(resultadoTexto);
     resultadoNode.appendChild(resultadoX);

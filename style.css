@@ -141,3 +141,11 @@ body {
   align-items: center;
   margin-top: 20px;
 }
+
+.resultado p {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.criterioSassenfeld p {
+  font-family: 'Open Sans', sans-serif;
+}
