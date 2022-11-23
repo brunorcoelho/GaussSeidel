@@ -2,6 +2,7 @@ const matrixSize = document.getElementsByClassName('matrixSize');
 const matrixANode = document.getElementById('matrizA');
 const matrixBNode = document.getElementById('matrizB');
 const chuteInicial = document.getElementById('chuteInicial');
+const calcular = document.getElementById('calcular');
 
 // Loop para mudar o tamanho da matriz e afins
 for (let index = 0; index < matrixSize.length; index++) {
@@ -21,8 +22,7 @@ for (let index = 0; index < matrixSize.length; index++) {
         matrixANode.className = 'matrizA2';
         for (let i = 0; i < 4; i++) {
           const matrixInput = document.createElement('input');
-          matrixInput.type = 'text';
-          matrixInput.class = 'matrizA';
+          matrixInput.id = i + 'matrizA';
           matrixANode.appendChild(matrixInput);
         }
         for (let i = 0; i < 2; i++) {
@@ -42,8 +42,7 @@ for (let index = 0; index < matrixSize.length; index++) {
         matrixANode.className = 'matrizA3';
         for (let i = 0; i < 9; i++) {
           const matrixInput = document.createElement('input');
-          matrixInput.type = 'text';
-          matrixInput.class = 'matrizA';
+          matrixInput.id = i + 'matrizA';
           matrixANode.appendChild(matrixInput);
         }
         for (let i = 0; i < 3; i++) {
@@ -63,8 +62,7 @@ for (let index = 0; index < matrixSize.length; index++) {
         matrixANode.className = 'matrizA4';
         for (let i = 0; i < 16; i++) {
           const matrixInput = document.createElement('input');
-          matrixInput.type = 'text';
-          matrixInput.class = 'matrizA';
+          matrixInput.id = i + 'matrizA';
           matrixANode.appendChild(matrixInput);
         }
         for (let i = 0; i < 4; i++) {
@@ -84,8 +82,7 @@ for (let index = 0; index < matrixSize.length; index++) {
         matrixANode.className = 'matrizA5';
         for (let i = 0; i < 25; i++) {
           const matrixInput = document.createElement('input');
-          matrixInput.type = 'text';
-          matrixInput.class = 'matrizA';
+          matrixInput.id = i + 'matrizA';
           matrixANode.appendChild(matrixInput);
         }
         for (let i = 0; i < 5; i++) {
@@ -103,4 +100,28 @@ for (let index = 0; index < matrixSize.length; index++) {
         break;
     }
   });
+}
+
+calcular.addEventListener('click', lerMatriz);
+
+function lerMatriz() {
+  let tamanho = matrixANode.childElementCount;
+  if (tamanho > 4) {
+    tamanho = Math.sqrt(tamanho);
+  } else {
+    tamanho = tamanho - 2;
+  }
+  let matriz = new Array(tamanho);
+  for (let i = 0; i < tamanho; i++) {
+    matriz[i] = new Array(tamanho);
+  }
+  let contadorElemento = 0;
+  for (let i = 0; i < tamanho; i++) {
+    for (let j = 0; j < tamanho; j++) {
+      let id = contadorElemento + 'matrizA';
+      let valor = document.getElementById(id).value;
+      matriz[i][j] = valor;
+      contadorElemento++;
+    }
+  }
 }

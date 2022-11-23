@@ -134,3 +134,10 @@ body {
 .erro input {
   width: 60px;
 }
+
+.calcular {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
