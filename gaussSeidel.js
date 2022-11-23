@@ -124,11 +124,11 @@ function lerMatriz() {
       let valor = document.getElementById(id).value;
       if (valor < 0) {
         matrizSassenfeld[i][j] = valor * -1;
-        matriz[i][j] = parseInt(valor);
+        matriz[i][j] = parseFloat(valor);
         contadorElemento++;
       } else {
-        matriz[i][j] = parseInt(valor);
-        matrizSassenfeld[i][j] = parseInt(valor);
+        matriz[i][j] = parseFloat(valor);
+        matrizSassenfeld[i][j] = parseFloat(valor);
         contadorElemento++;
       }
     }
@@ -137,18 +137,18 @@ function lerMatriz() {
   for (let i = 0; i < tamanho; i++) {
     let id = i + 'matrizB';
     let valoresB = document.getElementById(id).value;
-    matrizB[i] = parseInt(valoresB);
+    matrizB[i] = parseFloat(valoresB);
   }
   let chuteInicial = new Array(tamanho);
   for (let i = 0; i < tamanho; i++) {
     let id = i + 'chuteInicial';
     let valoresChute = document.getElementById(id).value;
-    chuteInicial[i] = parseInt(valoresChute);
+    chuteInicial[i] = parseFloat(valoresChute);
   }
   let erro = document.getElementById('erro').value;
 
   if (criterioSassenfeld(matrizSassenfeld, tamanho)) {
-    calcularMatriz(matriz, matrizB, chuteInicial, erro);
+    calcularMatriz(matriz, matrizB, chuteInicial, erro, tamanho);
   }
 }
 
@@ -190,22 +190,42 @@ function criterioSassenfeld(matrizSassenfeld, tamanho) {
   }
 }
 
-function calcularMatriz(matriz, matrizB, chuteInicial, erro) {
+function calcularMatriz(matriz, matrizB, chuteInicial, erro, tamanho) {
+  let contagemDeErro;
+  let k = 0;
   do {
     let aproximacaoAtual = new Array(tamanho);
     let aproximacaoTeste = new Array(tamanho);
-    let aproximacaoPassada = new Array(tamanho);
+
+    let erroTeste;
     for (let i = 0; i < tamanho; i++) {
       aproximacaoAtual[i] = 0;
-      aproximacaoTeste[i] = aproximacaoPassada[i];
+      aproximacaoTeste[i] = chuteInicial[i];
     }
     for (let i = 0; i < tamanho; i++) {
       for (let j = 0; j < tamanho; j++) {
         if (j !== i) {
           aproximacaoAtual[i] =
-            aproximacaoAtual[i] + matriz[i][j] * -1 * aproximacaoPassada[j];
+            aproximacaoAtual[i] + matriz[i][j] * -1 * chuteInicial[j];
         }
       }
+      aproximacaoAtual[i] = aproximacaoAtual[i] + matrizB[i];
+      aproximacaoAtual[i] = aproximacaoAtual[i] / matriz[i][i];
+      chuteInicial[i] = aproximacaoAtual[i];
     }
-  } while ((contagemDeErro = tamanho));
+    k++;
+
+    contagemDeErro = 0;
+    for (let i = 0; i < tamanho; i++) {
+      erroTeste = aproximacaoAtual[i] - aproximacaoTeste[i];
+      if (erroTeste < 0) {
+        erroTeste = erroTeste * -1;
+      }
+      if (erroTeste < erro) {
+        contagemDeErro = contagemDeErro + 1;
+      }
+    }
+    console.log(aproximacaoAtual, k);
+  } while (contagemDeErro !== tamanho);
+  return aproximacaoAtual;
 }
