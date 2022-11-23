@@ -3,6 +3,8 @@ const matrixANode = document.getElementById('matrizA');
 const matrixBNode = document.getElementById('matrizB');
 const chuteInicial = document.getElementById('chuteInicial');
 const calcular = document.getElementById('calcular');
+const criterioSassenfeldNode = document.getElementById('sassen');
+const resultadoNode = document.getElementById('result');
 
 // Loop para mudar o tamanho da matriz e afins
 for (let index = 0; index < matrixSize.length; index++) {
@@ -105,6 +107,12 @@ for (let index = 0; index < matrixSize.length; index++) {
 calcular.addEventListener('click', lerMatriz);
 
 function lerMatriz() {
+  while (resultadoNode.childNodes.length > 2) {
+    resultadoNode.removeChild(resultadoNode.lastChild);
+  }
+  while (criterioSassenfeldNode.childNodes.length > 2) {
+    criterioSassenfeldNode.removeChild(criterioSassenfeldNode.lastChild);
+  }
   let tamanho = matrixANode.childElementCount;
   if (tamanho > 4) {
     tamanho = Math.sqrt(tamanho);
@@ -183,9 +191,19 @@ function criterioSassenfeld(matrizSassenfeld, tamanho) {
   }
 
   if (beta[tamanho - 1] > 1) {
-    console.log('Nao converge');
+    const sassenfeldP = document.createElement('p');
+    const sassenfeldTexto = document.createTextNode(
+      'Essa matriz nao satisfaz o criterio de Sassenfeld. Insira outra.'
+    );
+    sassenfeldP.appendChild(sassenfeldTexto);
+    criterioSassenfeldNode.appendChild(sassenfeldP);
   } else {
-    console.log('converge sim');
+    const sassenfeldP = document.createElement('p');
+    const sassenfeldTexto = document.createTextNode(
+      'A matriz converge, portanto satisfaz o critério de Sassenfeld.'
+    );
+    sassenfeldP.appendChild(sassenfeldTexto);
+    criterioSassenfeldNode.appendChild(sassenfeldP);
     return true;
   }
 }
@@ -225,7 +243,12 @@ function calcularMatriz(matriz, matrizB, chuteInicial, erro, tamanho) {
         contagemDeErro = contagemDeErro + 1;
       }
     }
-    console.log(aproximacaoAtual, k);
+
+    const resultadoX = document.createElement('p');
+    const resultadoTexto = document.createTextNode(
+      'O resultado aproximado na iteracao ' + k + ' é ' + aproximacaoAtual
+    );
+    resultadoX.appendChild(resultadoTexto);
+    resultadoNode.appendChild(resultadoX);
   } while (contagemDeErro !== tamanho);
-  return aproximacaoAtual;
 }
