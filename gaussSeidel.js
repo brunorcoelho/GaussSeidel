@@ -27,14 +27,14 @@ for (let index = 0; index < matrixSize.length; index++) {
         }
         for (let i = 0; i < 2; i++) {
           const matrixB = document.createElement('input');
-          matrixB.type = 'text';
-          matrixB.class = 'matrizB';
+
+          matrixB.id = i + 'matrizB';
           matrixBNode.appendChild(matrixB);
         }
         for (let i = 0; i < 2; i++) {
           const chuteInicialInput = document.createElement('input');
-          chuteInicialInput.type = 'text';
-          chuteInicialInput.class = 'chuteInicialInput';
+
+          chuteInicialInput.id = i + 'chuteInicial';
           chuteInicial.appendChild(chuteInicialInput);
         }
         break;
@@ -47,14 +47,14 @@ for (let index = 0; index < matrixSize.length; index++) {
         }
         for (let i = 0; i < 3; i++) {
           const matrixB = document.createElement('input');
-          matrixB.type = 'text';
-          matrixB.class = 'matrizB';
+
+          matrixB.id = i + 'matrizB';
           matrixBNode.appendChild(matrixB);
         }
         for (let i = 0; i < 3; i++) {
           const chuteInicialInput = document.createElement('input');
-          chuteInicialInput.type = 'text';
-          chuteInicialInput.class = 'chuteInicialInput';
+
+          chuteInicialInput.id = i + 'chuteInicial';
           chuteInicial.appendChild(chuteInicialInput);
         }
         break;
@@ -67,14 +67,14 @@ for (let index = 0; index < matrixSize.length; index++) {
         }
         for (let i = 0; i < 4; i++) {
           const matrixB = document.createElement('input');
-          matrixB.type = 'text';
-          matrixB.class = 'matrizB';
+
+          matrixB.id = i + 'matrizB';
           matrixBNode.appendChild(matrixB);
         }
         for (let i = 0; i < 4; i++) {
           const chuteInicialInput = document.createElement('input');
-          chuteInicialInput.type = 'text';
-          chuteInicialInput.class = 'chuteInicialInput';
+
+          chuteInicialInput.id = i + 'chuteInicial';
           chuteInicial.appendChild(chuteInicialInput);
         }
         break;
@@ -87,14 +87,14 @@ for (let index = 0; index < matrixSize.length; index++) {
         }
         for (let i = 0; i < 5; i++) {
           const matrixB = document.createElement('input');
-          matrixB.type = 'text';
-          matrixB.class = 'matrizB';
+
+          matrixB.id = i + 'matrizB';
           matrixBNode.appendChild(matrixB);
         }
         for (let i = 0; i < 5; i++) {
           const chuteInicialInput = document.createElement('input');
-          chuteInicialInput.type = 'text';
-          chuteInicialInput.class = 'chuteInicialInput';
+
+          chuteInicialInput.id = i + 'chuteInicial';
           chuteInicial.appendChild(chuteInicialInput);
         }
         break;
@@ -112,16 +112,100 @@ function lerMatriz() {
     tamanho = tamanho - 2;
   }
   let matriz = new Array(tamanho);
+  let matrizSassenfeld = new Array(tamanho);
   for (let i = 0; i < tamanho; i++) {
     matriz[i] = new Array(tamanho);
+    matrizSassenfeld[i] = new Array(tamanho);
   }
   let contadorElemento = 0;
   for (let i = 0; i < tamanho; i++) {
     for (let j = 0; j < tamanho; j++) {
       let id = contadorElemento + 'matrizA';
       let valor = document.getElementById(id).value;
-      matriz[i][j] = valor;
-      contadorElemento++;
+      if (valor < 0) {
+        matrizSassenfeld[i][j] = valor * -1;
+        matriz[i][j] = parseInt(valor);
+        contadorElemento++;
+      } else {
+        matriz[i][j] = parseInt(valor);
+        matrizSassenfeld[i][j] = parseInt(valor);
+        contadorElemento++;
+      }
     }
   }
+  let matrizB = new Array(tamanho);
+  for (let i = 0; i < tamanho; i++) {
+    let id = i + 'matrizB';
+    let valoresB = document.getElementById(id).value;
+    matrizB[i] = parseInt(valoresB);
+  }
+  let chuteInicial = new Array(tamanho);
+  for (let i = 0; i < tamanho; i++) {
+    let id = i + 'chuteInicial';
+    let valoresChute = document.getElementById(id).value;
+    chuteInicial[i] = parseInt(valoresChute);
+  }
+  let erro = document.getElementById('erro').value;
+
+  if (criterioSassenfeld(matrizSassenfeld, tamanho)) {
+    calcularMatriz(matriz, matrizB, chuteInicial, erro);
+  }
+}
+
+function criterioSassenfeld(matrizSassenfeld, tamanho) {
+  let beta = new Array(tamanho);
+  for (let i = 0; i < tamanho; i++) {
+    beta[i] = 0;
+  }
+  for (let i = 0; i < tamanho; i++) {
+    for (let j = 0; j < tamanho - 1; j++) {
+      if (i === 0) {
+        beta[i] = beta[i] + matrizSassenfeld[i][j + 1];
+      } else {
+        if (j !== i) {
+          beta[i] = beta[i] + matrizSassenfeld[i][j] * beta[j];
+        } else {
+          beta[i] = beta[i] + matrizSassenfeld[i][j + 1];
+        }
+      }
+    }
+    beta[i] = beta[i] / matrizSassenfeld[i][i];
+  }
+  let aux;
+  for (let i = 0; i < tamanho; i++) {
+    for (let j = 0; j < tamanho; j++) {
+      if (beta[i] < beta[j]) {
+        aux = beta[j];
+        beta[j] = beta[i];
+        beta[i] = aux;
+      }
+    }
+  }
+
+  if (beta[tamanho - 1] > 1) {
+    console.log('Nao converge');
+  } else {
+    console.log('converge sim');
+    return true;
+  }
+}
+
+function calcularMatriz(matriz, matrizB, chuteInicial, erro) {
+  do {
+    let aproximacaoAtual = new Array(tamanho);
+    let aproximacaoTeste = new Array(tamanho);
+    let aproximacaoPassada = new Array(tamanho);
+    for (let i = 0; i < tamanho; i++) {
+      aproximacaoAtual[i] = 0;
+      aproximacaoTeste[i] = aproximacaoPassada[i];
+    }
+    for (let i = 0; i < tamanho; i++) {
+      for (let j = 0; j < tamanho; j++) {
+        if (j !== i) {
+          aproximacaoAtual[i] =
+            aproximacaoAtual[i] + matriz[i][j] * -1 * aproximacaoPassada[j];
+        }
+      }
+    }
+  } while ((contagemDeErro = tamanho));
 }
